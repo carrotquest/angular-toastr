@@ -52,7 +52,7 @@
       if (arguments.length === 1 && !toastName) { return; }
     
       for (var i = 0; i < toasts.length; i++) {
-        if (toasts[i].toastName === toastName) {
+        if (toasts[i].scope.toastName === toastName) {
           remove(toasts[i].toastId);
         }
       }
