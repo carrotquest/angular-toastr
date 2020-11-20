@@ -19,6 +19,7 @@
     var toast = {
       active: active,
       clear: clear,
+      closeByName: closeByName,
       error: error,
       info: info,
       remove: remove,
@@ -42,6 +43,16 @@
         remove(toast.toastId);
       } else {
         for (var i = 0; i < toasts.length; i++) {
+          remove(toasts[i].toastId);
+        }
+      }
+    }
+  
+    function closeByName(toastName) {
+      if (arguments.length === 1 && !toastName) { return; }
+    
+      for (var i = 0; i < toasts.length; i++) {
+        if (toasts[i].toastName === toastName) {
           remove(toasts[i].toastId);
         }
       }
@@ -207,6 +218,7 @@
         toast.scope.toastType = toast.iconClass;
         toast.scope.toastId = toast.toastId;
         toast.scope.extraData = options.extraData;
+        toast.scope.toastName = options.toastName;
 
         toast.scope.options = {
           extendedTimeOut: options.extendedTimeOut,
@@ -265,7 +277,7 @@
       }
 
       function createToastEl(scope) {
-        var angularDomEl = angular.element('<div toast></div>'),
+        var angularDomEl = angular.element('<div class="animate" toast></div>'),
           $compile = $injector.get('$compile');
         return $compile(angularDomEl)(scope);
       }
@@ -505,5 +517,5 @@
   }
 }());
 
-angular.module("toastr").run(["$templateCache", function($templateCache) {$templateCache.put("directives/progressbar/progressbar.html","<div class=\"toast-progress\"></div>\n");
-$templateCache.put("directives/toast/toast.html","<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\">\n  <div ng-switch on=\"allowHtml\">\n    <div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\" aria-label=\"{{title}}\">{{title}}</div>\n    <div ng-switch-default class=\"{{messageClass}}\" aria-label=\"{{message}}\">{{message}}</div>\n    <div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"></div>\n    <div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"></div>\n  </div>\n  <progress-bar ng-if=\"progressBar\"></progress-bar>\n</div>\n");}]);
+angular.module("toastr").run(["$templateCache", function($templateCache) {$templateCache.put("directives/progressbar/progressbar.html","<div class=\"toast-progress\"></div>\r\n");
+$templateCache.put("directives/toast/toast.html","<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\">\r\n  <div ng-switch on=\"allowHtml\">\r\n    <div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\" aria-label=\"{{title}}\">{{title}}</div>\r\n    <div ng-switch-default class=\"{{messageClass}}\" aria-label=\"{{message}}\">{{message}}</div>\r\n    <div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"></div>\r\n    <div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"></div>\r\n  </div>\r\n  <progress-bar ng-if=\"progressBar\"></progress-bar>\r\n</div>\r\n");}]);

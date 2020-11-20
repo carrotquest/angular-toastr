@@ -19,6 +19,7 @@
     var toast = {
       active: active,
       clear: clear,
+      closeByName: closeByName,
       error: error,
       info: info,
       remove: remove,
@@ -42,6 +43,16 @@
         remove(toast.toastId);
       } else {
         for (var i = 0; i < toasts.length; i++) {
+          remove(toasts[i].toastId);
+        }
+      }
+    }
+  
+    function closeByName(toastName) {
+      if (arguments.length === 1 && !toastName) { return; }
+    
+      for (var i = 0; i < toasts.length; i++) {
+        if (toasts[i].toastName === toastName) {
           remove(toasts[i].toastId);
         }
       }
@@ -207,6 +218,7 @@
         toast.scope.toastType = toast.iconClass;
         toast.scope.toastId = toast.toastId;
         toast.scope.extraData = options.extraData;
+        toast.scope.toastName = options.toastName;
 
         toast.scope.options = {
           extendedTimeOut: options.extendedTimeOut,
@@ -265,7 +277,7 @@
       }
 
       function createToastEl(scope) {
-        var angularDomEl = angular.element('<div toast></div>'),
+        var angularDomEl = angular.element('<div class="animate" toast></div>'),
           $compile = $injector.get('$compile');
         return $compile(angularDomEl)(scope);
       }
